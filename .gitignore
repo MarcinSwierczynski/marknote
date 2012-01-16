@@ -1,0 +1,11 @@
+/tmp
+/modules
+/lib
+/test-result
+/logs
+
+# IntelliJ IDEA specific
+*.iml
+*.iws
+*.ipr
+.idea/
