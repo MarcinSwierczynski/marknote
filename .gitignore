@@ -1,3 +1,6 @@
+*.class
+
+# Play Framework
 /tmp
 /modules
 /lib
@@ -5,7 +8,7 @@
 /logs
 
 # IntelliJ IDEA specific
+.idea/
 *.iml
 *.iws
 *.ipr
-.idea/
