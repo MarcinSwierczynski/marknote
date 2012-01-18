@@ -1,5 +1,6 @@
 package models;
 
+import play.data.validation.MinSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
@@ -16,6 +17,7 @@ public class Note extends Model {
 
 	@Required
 	@Lob
+	@MinSize(5)
 	public String content;
 
 	public Note(String content) {
