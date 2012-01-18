@@ -1,0 +1,12 @@
+#{extends 'main.html' /}
+#{set title:'Lists' /}
+
+#{form @Notes.addNote()}
+<p>
+	<label for="content">Content</label>
+	<textarea name="content" id="content"></textarea>
+</p>
+<p>
+	<input type="submit" value="Save"/>
+</p>
+#{/form}

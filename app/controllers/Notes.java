@@ -17,4 +17,13 @@ public class Notes extends Controller {
 		render(notes);
 	}
 
+	public static void addNote(String content) {
+		if (request.method.equals("POST")) {
+			new Note(content).save();
+			list();
+		} else {
+			render();
+		}
+	}
+
 }

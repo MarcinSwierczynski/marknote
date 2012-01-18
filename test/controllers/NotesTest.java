@@ -1,14 +1,16 @@
 package controllers;
 
+import com.google.common.collect.ImmutableMap;
 import models.Note;
+import org.junit.Before;
 import org.junit.Test;
 import play.mvc.Http.Response;
+import play.test.Fixtures;
 import play.test.FunctionalTest;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Date: 17.01.2012 at 21:37
@@ -16,6 +18,11 @@ import static org.hamcrest.Matchers.is;
  * @author Marcin Swierczynski
  */
 public class NotesTest extends FunctionalTest {
+
+	@Before
+	public void setUp() throws Exception {
+		Fixtures.deleteDatabase();
+	}
 
 	@Test
 	public void notesListResponds() throws Exception {
@@ -39,4 +46,12 @@ public class NotesTest extends FunctionalTest {
 		assertThat(responseContent, containsString(note2.content));
 	}
 
+	@Test
+	public void addNewNote() throws Exception {
+		POST("/notes/addNote", ImmutableMap.of("content", "Note content"));
+
+		List<Note> allNotes = Note.findAll();
+		assertThat(allNotes.size(), is(1));
+		assertThat(allNotes.get(0).content, is(equalTo("Note content")));
+	}
 }
