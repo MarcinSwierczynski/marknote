@@ -6,6 +6,7 @@
 /lib
 /test-result
 /logs
+/out
 
 # IntelliJ IDEA specific
 .idea/
