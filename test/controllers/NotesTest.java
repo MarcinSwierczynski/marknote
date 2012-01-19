@@ -30,6 +30,7 @@ public class NotesTest extends FunctionalTest {
 		assertIsOk(response);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void showNotesList() throws Exception {
 		Note note1 = new Note("Note1").save();
@@ -47,11 +48,25 @@ public class NotesTest extends FunctionalTest {
 	}
 
 	@Test
-	public void addNewNote() throws Exception {
-		POST("/notes/addNote", ImmutableMap.of("content", "Note content"));
+	public void saveNewNote() throws Exception {
+		POST("/notes/saveNote", ImmutableMap.of("note.content", "Note content"));
 
 		List<Note> allNotes = Note.findAll();
 		assertThat(allNotes.size(), is(1));
 		assertThat(allNotes.get(0).content, is(equalTo("Note content")));
+	}
+
+	@Test
+	public void showOnlyNotesTitles() throws Exception {
+		Note note1 = new Note("Note1 title\n note1 content").save();
+		Note note2 = new Note("Note2 title\n note2 content").save();
+		
+		Response response = GET("/notes/list");
+
+		String responseContent = response.out.toString("UTF-8");
+		assertThat(responseContent, containsString("Note1 title"));
+		assertThat(responseContent, containsString("Note2 title"));
+		assertThat(responseContent, not(containsString(note1.content)));
+		assertThat(responseContent, not(containsString(note2.content)));
 	}
 }
