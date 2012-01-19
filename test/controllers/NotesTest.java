@@ -48,6 +48,20 @@ public class NotesTest extends FunctionalTest {
 	}
 
 	@Test
+	public void showOnlyNotesTitles() throws Exception {
+		Note note1 = new Note("Note1 title\n note1 content").save();
+		Note note2 = new Note("Note2 title\n note2 content").save();
+
+		Response response = GET("/notes/list");
+
+		String responseContent = response.out.toString("UTF-8");
+		assertThat(responseContent, containsString("Note1 title"));
+		assertThat(responseContent, containsString("Note2 title"));
+		assertThat(responseContent, not(containsString(note1.content)));
+		assertThat(responseContent, not(containsString(note2.content)));
+	}
+
+	@Test
 	public void saveNewNote() throws Exception {
 		POST("/notes/saveNote", ImmutableMap.of("note.content", "Note content"));
 
@@ -57,16 +71,14 @@ public class NotesTest extends FunctionalTest {
 	}
 
 	@Test
-	public void showOnlyNotesTitles() throws Exception {
-		Note note1 = new Note("Note1 title\n note1 content").save();
-		Note note2 = new Note("Note2 title\n note2 content").save();
-		
-		Response response = GET("/notes/list");
+	public void rejectNoteWithoutContent() throws Exception {
+		POST("/notes/saveNote", ImmutableMap.of("note.content", ""));
+		assertThat(Note.count(), is(0L));
+	}
 
-		String responseContent = response.out.toString("UTF-8");
-		assertThat(responseContent, containsString("Note1 title"));
-		assertThat(responseContent, containsString("Note2 title"));
-		assertThat(responseContent, not(containsString(note1.content)));
-		assertThat(responseContent, not(containsString(note2.content)));
+	@Test
+	public void rejectNoteWithTooShortContent() throws Exception {
+		POST("/notes/saveNote", ImmutableMap.of("note.content", "test"));
+		assertThat(Note.count(), is(0L));
 	}
 }
