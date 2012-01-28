@@ -1,5 +1,6 @@
 package models;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import play.data.validation.MinSize;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 @Entity
 public class Note extends Model {
 
+	private static final String NEW_LINE_SEPARATOR = "\n";
+
 	@Required
 	@Lob
 	@MinSize(5)
@@ -35,8 +38,15 @@ public class Note extends Model {
 	public String getTitle() {
 		return splitOnLines().get(0);
 	}
+	
+	public String getContentWithoutTitle() {
+		ArrayList<String> noteLines = splitOnLines();
+		noteLines.remove(0);
+		String contentWithoutTitle = Joiner.on(NEW_LINE_SEPARATOR).join(noteLines);
+		return contentWithoutTitle.trim();
+	}
 
 	private ArrayList<String> splitOnLines() {
-		return Lists.newArrayList(Splitter.on("\n").split(content));
+		return Lists.newArrayList(Splitter.on(NEW_LINE_SEPARATOR).split(content));
 	}
 }

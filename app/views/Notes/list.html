@@ -1,10 +1,17 @@
 #{extends 'main.html' /}
 #{set title:'Lists' /}
 
-<ul>
+<script>
+	$(function() {
+		$("#notes").accordion({ collapsible: true, active: false });
+	});
+</script>
+
+<div id="notes">
 	#{list items:notes, as:'note'}
-		<li>${note}</li>
+		<h3><a href="#">${note.title}</a></h3>
+		<div><p>${note.contentWithoutTitle}</p></div>
 	#{/list}
-</ul>
+</div>
 
 <a href="@{Notes.addNote}">Add note</a>

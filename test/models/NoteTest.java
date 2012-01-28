@@ -21,4 +21,18 @@ public class NoteTest extends UnitTest {
 		assertThat(note, is(notNullValue()));
 		assertThat(note.content, is("Title\n content"));
 	}
+
+	@Test
+	public void retrieveNoteTitle() throws Exception {
+		new Note("Title\n content").save();
+		Note note = Note.find("byContent", "Title\n content").first();
+		assertThat(note.getTitle(), is("Title"));
+	}
+
+	@Test
+	public void retrieveNoteContentWithoutTitle() throws Exception {
+		new Note("Title\n content").save();
+		Note note = Note.find("byContent", "Title\n content").first();
+		assertThat(note.getContentWithoutTitle(), is("content"));
+	}
 }
