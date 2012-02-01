@@ -3,7 +3,9 @@ package controllers;
 import models.Note;
 import play.data.validation.Valid;
 import play.mvc.Controller;
+import services.markdown.ContentConverter;
 
+import javax.inject.Inject;
 import java.util.List;
 
 import static play.data.validation.Validation.hasErrors;
@@ -14,6 +16,9 @@ import static play.data.validation.Validation.hasErrors;
  * @author Marcin Swierczynski
  */
 public class Notes extends Controller {
+
+	@Inject
+	static ContentConverter markdownConverter;
 
 	public static void list() {
 		List<Note> notes = Note.findAll();
