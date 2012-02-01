@@ -10,7 +10,7 @@
 <div id="notes">
 	#{list items:notes, as:'note'}
 		<h3><a href="#">${note.title}</a></h3>
-		<div><p>${note.contentWithoutTitle}</p></div>
+		<div><p>${note.convertedContent}</p></div>
 	#{/list}
 </div>
 

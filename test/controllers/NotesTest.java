@@ -33,8 +33,8 @@ public class NotesTest extends FunctionalTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void showNotesList() throws Exception {
-		Note note1 = new Note("Note1").save();
-		Note note2 = new Note("Note2").save();
+		Note note1 = new Note("Note1 title\n note1 content").save();
+		Note note2 = new Note("Note2 title\n note2 content").save();
 
 		Response response = GET("/notes/list");
 
@@ -43,22 +43,10 @@ public class NotesTest extends FunctionalTest {
 		assertThat(notes.get(1), is(note2));
 
 		String responseContent = response.out.toString("UTF-8");
-		assertThat(responseContent, containsString(note1.content));
-		assertThat(responseContent, containsString(note2.content));
-	}
-
-	@Test
-	public void showOnlyNotesTitles() throws Exception {
-		Note note1 = new Note("Note1 title\n note1 content").save();
-		Note note2 = new Note("Note2 title\n note2 content").save();
-
-		Response response = GET("/notes/list");
-
-		String responseContent = response.out.toString("UTF-8");
-		assertThat(responseContent, containsString("Note1 title"));
-		assertThat(responseContent, containsString("Note2 title"));
-		assertThat(responseContent, not(containsString(note1.content)));
-		assertThat(responseContent, not(containsString(note2.content)));
+		assertThat(responseContent, containsString(note1.getTitle()));
+		assertThat(responseContent, containsString(note1.getContentWithoutTitle()));
+		assertThat(responseContent, containsString(note2.getTitle()));
+		assertThat(responseContent, containsString(note2.getContentWithoutTitle()));
 	}
 
 	@Test
