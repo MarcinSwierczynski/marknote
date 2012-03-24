@@ -1,0 +1,14 @@
+<services.markdown.MarkdownConverterTest-results timestamp="1332599376066"><result location="services.markdown.MarkdownConverterTest (MarkdownConverterTest.scala:15)" id="615805644"><stats expectations="1" examples="1" errors="1" time="28"></stats></result>
+</services.markdown.MarkdownConverterTest-results>
+<services.markdown.MarkdownConverterTest-stats timestamp="1332599376068"><stats expectations="1" examples="1" errors="1" time="28"></stats></services.markdown.MarkdownConverterTest-stats>
+<services.markdown.MarkdownConverterTest-results timestamp="1332599520094"><result location="services.markdown.MarkdownConverterTest (MarkdownConverterTest.scala:15)" id="615805644"><stats expectations="1" examples="1" errors="1" time="32"></stats></result>
+</services.markdown.MarkdownConverterTest-results>
+<services.markdown.MarkdownConverterTest-stats timestamp="1332599520097"><stats expectations="1" examples="1" errors="1" time="32"></stats></services.markdown.MarkdownConverterTest-stats>
+<services.markdown.MarkdownConverterTest-results timestamp="1332599643509"><result location="services.markdown.MarkdownConverterTest (MarkdownConverterTest.scala:15)" id="615805644"><stats expectations="1" examples="1" errors="1" time="129"></stats></result>
+</services.markdown.MarkdownConverterTest-results>
+<services.markdown.MarkdownConverterTest-stats timestamp="1332599643513"><stats expectations="1" examples="1" errors="1" time="129"></stats></services.markdown.MarkdownConverterTest-stats>
+<services.markdown.MarkdownConverterTest-results timestamp="1332599665407"><result location="services.markdown.MarkdownConverterTest (MarkdownConverterTest.scala:15)" id="615805644"><stats expectations="1" examples="1" errors="1" time="97"></stats></result>
+</services.markdown.MarkdownConverterTest-results>
+<services.markdown.MarkdownConverterTest-stats timestamp="1332599665414"><stats expectations="1" examples="1" errors="1" time="97"></stats></services.markdown.MarkdownConverterTest-stats>
+<services.markdown.MarkdownConverterTest-stats timestamp="1332600071104"><stats expectations="1" examples="1" successes="1" time="139"><trend><stats errors="-1" successes="1" time="236"></stats></trend></stats></services.markdown.MarkdownConverterTest-stats>
+<services.markdown.MarkdownConverterTest-stats timestamp="1332600077888"><stats expectations="1" examples="1" successes="1" time="134"></stats></services.markdown.MarkdownConverterTest-stats>
