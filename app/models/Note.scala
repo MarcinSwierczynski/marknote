@@ -43,8 +43,8 @@ object Note {
 		}
 	}
 	
-	def findByContent(content: String): Option[Note] = DB.withConnection { implicit c =>
-		SQL("select * from note where content = {content}").on('content -> content).as(note.singleOpt)
+	def findByContent(content: String): List[Note] = DB.withConnection { implicit c =>
+		SQL("select * from note where content like '%{content}%'").on('content -> content).as(note *)
 	}
 
 	val note = {

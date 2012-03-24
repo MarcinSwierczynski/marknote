@@ -38,9 +38,9 @@ class NotesTest extends Specification {
 		"persist note to database" in {
 			running(FakeApplication()) {
 				controllers.Notes.newNote(FakeRequest().withFormUrlEncodedBody(("content", "Note1")))
-				val newNote: Option[Note] = Note.findByContent("Note1")
-				newNote must beSome[Note]
-				newNote.getOrElse(Note(0, "")).content must beEqualTo("Note1")
+				val notes: List[Note] = Note.findByContent("Note1")
+				notes.size must beEqualTo(1)
+				notes.head.content must beEqualTo("Note1")
 			}
 		}
 		"redirect to notes list" in {
@@ -68,11 +68,11 @@ class NotesTest extends Specification {
 	"delete note" in {
 		running(FakeApplication()) {
 			controllers.Notes.newNote(FakeRequest().withFormUrlEncodedBody(("content", "Note")))
-			val newNote: Note = Note.findByContent("Note").getOrElse(Note(0, ""))
+			val newNote: Note = Note.findByContent("Note").head
 
 			val result = controllers.Notes.deleteNote(newNote.id)(FakeRequest())
 			status(result) must equalTo(SEE_OTHER)
-			Note.findByContent("Note") must beNone
+			Note.findByContent("Note").size must beEqualTo(1)
 		}
 	}
 

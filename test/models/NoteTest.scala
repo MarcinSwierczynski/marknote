@@ -17,9 +17,9 @@ class NoteTest extends Specification {
 		running(FakeApplication()) {
 			Note.create("Note1")
 
-			val newNote: Option[Note] = Note.findByContent("Note1")
-			newNote must beSome[Note]
-			newNote.getOrElse(Note(0, "")).content must beEqualTo("Note1")
+			val notes: List[Note] = Note.findByContent("Note1")
+			notes.size must beEqualTo(1)
+			notes.head.content must beEqualTo("Note1")
 		}
 	}
 
