@@ -44,7 +44,7 @@ object Note {
 	}
 	
 	def findByContent(content: String): List[Note] = DB.withConnection { implicit c =>
-		SQL("select * from note where content like '%{content}%'").on('content -> content).as(note *)
+		SQL("select * from note where lower(content) = {content}").on('content -> content.toLowerCase).as(note *)
 	}
 
 	val note = {

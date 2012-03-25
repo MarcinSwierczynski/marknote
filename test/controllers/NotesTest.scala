@@ -67,12 +67,12 @@ class NotesTest extends Specification {
 
 	"delete note" in {
 		running(FakeApplication()) {
-			controllers.Notes.newNote(FakeRequest().withFormUrlEncodedBody(("content", "Note")))
-			val newNote: Note = Note.findByContent("Note").head
+			controllers.Notes.newNote(FakeRequest().withFormUrlEncodedBody(("content", "Note1")))
+			val newNote: Note = Note.findByContent("Note1").head
 
 			val result = controllers.Notes.deleteNote(newNote.id)(FakeRequest())
 			status(result) must equalTo(SEE_OTHER)
-			Note.findByContent("Note").size must beEqualTo(1)
+			Note.findByContent("Note1").size must beEqualTo(0)
 		}
 	}
 
