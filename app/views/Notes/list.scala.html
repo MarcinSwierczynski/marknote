@@ -15,7 +15,7 @@
 	<div id="notes">
         @notes.map { note =>
 			<h3>@note.title</h3>
-			<div><p>@note.convertedContent</p></div>
+			<div><p>@Html(note.convertedContent)</p></div>
         }
 	</div>
 

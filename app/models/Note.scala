@@ -5,6 +5,7 @@ import play.api.Play.current
 import anorm._
 import anorm.SqlParser._
 import services.markdown.ComponentRegistry
+import utils.HtmlUtils.stripHtmlTags
 
 /**
  * Date: 17.03.2012 at 14:20
@@ -33,7 +34,7 @@ object Note {
 
 	def create(content: String) {
 		DB.withConnection { implicit c =>
-			SQL("insert into note (content) values ({content})").on('content -> content).executeUpdate()
+			SQL("insert into note (content) values ({content})").on('content -> stripHtmlTags(content)).executeUpdate()
 		}
 	}
 
