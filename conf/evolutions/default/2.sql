@@ -2,7 +2,7 @@
 
 # --- !Ups
 
-create table user (
+create table user0 (
   email                     varchar(255) not null primary key,
   name                      varchar(255) not null,
   password                  varchar(255) not null
@@ -10,4 +10,4 @@ create table user (
 
 # --- !Downs
 
-DROP TABLE IF EXISTS user;;
+DROP TABLE IF EXISTS user0;
