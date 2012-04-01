@@ -4,7 +4,7 @@ import play.api._
 import play.api.data.Forms._
 import data.Form
 import play.api.mvc._
-import models.Note
+import models.{User, Note}
 
 /**
  * Date: 17.03.2012 at 14:06
@@ -12,10 +12,12 @@ import models.Note
  * @author Marcin Swierczynski
  */
 
-object Notes extends Controller {
+object Notes extends Controller with Secured {
 
-	def notes = Action {
-		Ok(views.html.Notes.list(Note.all(), noteForm))
+	def notes = IsAuthenticated { username => _ =>
+		User.findByEmail(username).map { user =>
+			Ok(views.html.Notes.list(Note.all(), noteForm))
+		}.getOrElse(Forbidden)
 	}
 
 	val noteForm = Form(

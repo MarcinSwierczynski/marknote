@@ -43,9 +43,14 @@ object Note {
 			SQL("delete from note where id = {id}").on('id -> id).executeUpdate()
 		}
 	}
-	
+
 	def findByContent(content: String): List[Note] = DB.withConnection { implicit c =>
 		SQL("select * from note where lower(content) = {content}").on('content -> content.toLowerCase).as(note *)
+	}
+
+	def isOwner(noteId: Long, user: String): Boolean = {
+		// TODO
+		true
 	}
 
 	val note = {

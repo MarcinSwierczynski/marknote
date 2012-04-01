@@ -1,0 +1,28 @@
+@(loginForm: Form[(String,String)])(implicit flash: Flash)
+
+@import helper._
+
+@main("Sign in") {
+
+    @form(routes.Application.authenticate) {
+
+		@loginForm.globalError.map { error =>
+		    <p class="error">
+		        @error.message
+		    </p>
+		}
+
+		@flash.get("success").map { message =>
+		    <p class="success">
+		        @message
+		    </p>
+		}
+
+        @inputText(loginForm("email"))
+        @inputPassword(loginForm("password"))
+
+        <input type="submit" value="Login">
+
+    }
+
+}
