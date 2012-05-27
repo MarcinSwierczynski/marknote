@@ -4,7 +4,6 @@ target
 # Play Framework
 /tmp
 /modules
-/lib
 /test-result
 /logs
 /out
