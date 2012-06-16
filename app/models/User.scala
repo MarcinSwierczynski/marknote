@@ -12,7 +12,8 @@ import anorm.SqlParser._
  * @author Marcin Swierczynski
  */
 
-case class User(email: String, name: String, password: String)
+case class User(email: String, name: String, password: String,
+                dropboxUID: Option[String], dropboxAccessTokenKey: Option[String], dropboxAccessTokenSecret: Option[String])
 
 object User {
 
@@ -37,17 +38,30 @@ object User {
 
 	def create(user: User): User = {
 		DB.withConnection {implicit connection =>
-			SQL("""insert into user0 values ({email}, {name}, {password})""").on(
-				'email -> user.email, 'name -> user.name, 'password -> user.password).executeUpdate()
+			SQL("""insert into user0 values ({email}, {name}, {password}, {dropbox_uid}, {dropbox_access_token_key}, {dropbox_access_token_secret})""").on(
+				'email -> user.email, 'name -> user.name, 'password -> user.password,
+				'dropbox_uid -> user.dropboxUID, 'dropbox_access_token_key -> user.dropboxAccessTokenKey, 'dropbox_access_token_secret -> user.dropboxAccessTokenSecret).executeUpdate()
 			user
+		}
+	}
+
+	def persistDropboxCredentials(dropboxUID: String, dropboxAccessTokenKey: String, dropboxAccessTokenSecret: String, userEmail: String) {
+		DB.withConnection {implicit connection =>
+			SQL("""update user0 set dropbox_uid = {dropbox_uid}, dropbox_access_token_key = {dropbox_access_token_key}, dropbox_access_token_secret = {dropbox_access_token_secret} where email = {email}""").
+					on('dropbox_uid -> dropboxUID, 'dropbox_access_token_key -> dropboxAccessTokenKey, 'dropbox_access_token_secret -> dropboxAccessTokenSecret, 'email -> userEmail).
+					executeUpdate()
 		}
 	}
 
 	val user = {
 		get[String]("user0.email") ~
 		get[String]("user0.name") ~
-		get[String]("user0.password") map {
-			case email ~ name ~ password => User(email, name, password)
+		get[String]("user0.password") ~
+		get[Option[String]]("user0.dropbox_uid") ~
+		get[Option[String]]("user0.dropbox_access_token_key") ~
+		get[Option[String]]("user0.dropbox_access_token_secret") map {
+			case email ~ name ~ password ~ dropboxUid ~ dropboxAccessTokenKey ~ dropboxAccessTokenSecret
+				=> User(email, name, password, dropboxUid, dropboxAccessTokenKey, dropboxAccessTokenSecret)
 		}
 	}
 

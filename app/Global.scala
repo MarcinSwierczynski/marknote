@@ -22,7 +22,7 @@ object InitialData {
 
 		if (User.findAll.isEmpty) {
 			Seq(
-				User("user@marknote.com", "Power User", "password")
+				User("user@marknote.com", "Power User", "password", None, None, None)
 			).foreach(User.create)
 		}
 

@@ -40,7 +40,7 @@ object Dropbox extends Controller with Secured {
 				throw new RuntimeException("Wrong token!")
 			}
 
-			// TODO persist tokens
+			dropboxService.persistAccessToken(requestToken, requestTokenSecret, user)
 
 			Redirect(routes.Notes.notes())
 		}.getOrElse(Forbidden)
