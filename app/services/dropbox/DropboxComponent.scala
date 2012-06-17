@@ -2,8 +2,11 @@ package services.dropbox
 
 import com.dropbox.client2.session.WebAuthSession.WebAuthInfo
 import config.Config
-import com.dropbox.client2.session.{RequestTokenPair, WebAuthSession, AppKeyPair}
+import com.dropbox.client2.session.{AccessTokenPair, RequestTokenPair, WebAuthSession, AppKeyPair}
 import models.User
+import com.dropbox.client2.DropboxAPI
+import java.io.{FileInputStream, File}
+import com.dropbox.client2.DropboxAPI.Entry
 
 /**
  * Date: 27.05.2012 at 13:15
@@ -33,6 +36,38 @@ trait DropboxComponent {
 			val accessTokenKey: String = webAuthSession.getAccessTokenPair.key
 			val accessTokenSecret: String = webAuthSession.getAccessTokenPair.secret
 			User.persistDropboxCredentials(dropboxUID, accessTokenKey, accessTokenSecret, user.email)
+		}
+
+		def saveFile(file: File, user: User) {
+			val stream: FileInputStream = new FileInputStream(file)
+			try {
+				val dropboxApi: DropboxAPI[WebAuthSession] = getAuthenticatedDropboxApi(user)
+				dropboxApi.putFileOverwrite("/" + file.getName, stream, file.length(), null)
+			}
+			catch {
+				case e: Exception => println(e.getMessage)
+			}
+			finally {
+				if (stream != null) {
+					try {
+						stream.close()
+					}
+					catch {
+						case e: Exception => println(e.getMessage)
+					}
+				}
+			}
+		}
+
+		private def getAuthenticatedDropboxApi(user: User): DropboxAPI[WebAuthSession] = {
+			new DropboxAPI[WebAuthSession](getAuthenticatedWebAuthSession(user))
+		}
+
+		private def getAuthenticatedWebAuthSession(user: User): WebAuthSession = {
+			val appKeyPair: AppKeyPair = new AppKeyPair(Config.DROPBOX_APP_KEY, Config.DROPBOX_APP_SECRET)
+			val accessTokenPair: AccessTokenPair =
+				new AccessTokenPair(user.dropboxAccessTokenKey.getOrElse(""), user.dropboxAccessTokenSecret.getOrElse(""))
+			new WebAuthSession(appKeyPair, Config.DROPBOX_ACCESS_TYPE, accessTokenPair)
 		}
 
 	}

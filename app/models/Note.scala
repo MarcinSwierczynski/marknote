@@ -6,6 +6,8 @@ import anorm._
 import anorm.SqlParser._
 import services.markdown.ComponentRegistry
 import utils.HtmlUtils.stripHtmlTags
+import scalax.file.{Path, FileOps}
+import java.io.File
 
 /**
  * Date: 17.03.2012 at 14:20
@@ -58,5 +60,13 @@ object Note {
 		get[String]("content") map {
 			case id~label => Note(id, label)
 		}
+	}
+
+	def saveToFile(note: Note): File = {
+		// TODO externalize file paths setting
+		val path: String = "notes/" + note.title() + ".md"
+		val file: FileOps = Path(path)
+		file.write(note.contentWithoutTitle())
+		new File(path)
 	}
 }
