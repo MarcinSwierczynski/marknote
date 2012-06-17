@@ -17,10 +17,9 @@ trait DropboxComponent {
 
 	class DropboxService {
 
-		def authenticateUser(): WebAuthInfo = {
+		def authenticateUser(urlAfterAuth: String): WebAuthInfo = {
 			val webAuthSession: WebAuthSession = createAnonymousWebAuthSession()
-			// TODO remove hardcoded url
-			webAuthSession.getAuthInfo("http://localhost:9000/dropbox/authenticated")
+			webAuthSession.getAuthInfo(urlAfterAuth)
 		}
 
 		private def createAnonymousWebAuthSession(): WebAuthSession = {

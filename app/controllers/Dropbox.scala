@@ -18,9 +18,10 @@ object Dropbox extends Controller with Secured {
 	val REQUEST_TOKEN = "requestToken"
 	val REQUEST_TOKEN_SECRET = "requestTokenSecret"
 
-	def authenticateDropboxUser = IsAuthenticated { username => request =>
+	def authenticateDropboxUser = IsAuthenticated { username => implicit request =>
 		User.findByEmail(username).map { user =>
-			val authInfo: WebAuthInfo = dropboxService.authenticateUser()
+			val urlAfterAuth: String = routes.Dropbox.authenticated().absoluteURL()
+			val authInfo: WebAuthInfo = dropboxService.authenticateUser(urlAfterAuth)
 			Redirect(authInfo.url).withSession(request.session +
 				(REQUEST_TOKEN -> authInfo.requestTokenPair.key) +
 				(REQUEST_TOKEN_SECRET -> authInfo.requestTokenPair.secret)
