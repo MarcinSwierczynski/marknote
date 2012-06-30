@@ -3,10 +3,9 @@ package services.dropbox
 import com.dropbox.client2.session.WebAuthSession.WebAuthInfo
 import config.Config
 import com.dropbox.client2.session.{AccessTokenPair, RequestTokenPair, WebAuthSession, AppKeyPair}
-import models.User
+import models.{Note, User}
 import com.dropbox.client2.DropboxAPI
 import java.io.{FileInputStream, File}
-import com.dropbox.client2.DropboxAPI.Entry
 
 /**
  * Date: 27.05.2012 at 13:15
@@ -56,6 +55,16 @@ trait DropboxComponent {
 						case e: Exception => println(e.getMessage)
 					}
 				}
+			}
+		}
+
+		def persistNotesOfUser(user: User) {
+			// TODO get notes of a given user
+			Note.all().foreach {
+				note =>
+					val file: File = Note.saveToFile(note)
+					dropboxService.saveFile(file, user)
+					file.delete()
 			}
 		}
 
