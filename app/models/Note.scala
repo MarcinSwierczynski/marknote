@@ -65,7 +65,7 @@ object Note {
 	def saveToFile(note: Note): File = {
 		// TODO externalize file paths setting
 		val path: String = "notes/" + note.title() + ".md"
-		val file: FileOps = Path(path)
+		val file: FileOps = Path(path, '/')
 		file.write(note.contentWithoutTitle())
 		new File(path)
 	}
